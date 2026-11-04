@@ -1,0 +1,85 @@
+.overview {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.overview-heading h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+
+.overview-heading p {
+    margin: 0.5rem 0 0;
+    color: var(--text-muted);
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(16rem, 3fr);
+    grid-template-areas:
+    "balance      limit"
+    "accounts     limit"
+    "transactions limit";
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.overview-panel {
+    min-width: 0;
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    background: var(--surface);
+}
+
+.overview-panel h2 {
+    margin: 0;
+    font-size: 1.125rem;
+}
+
+.overview-panel p {
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+}
+
+.overview-balance {
+    grid-area: balance;
+    min-height: 11rem;
+}
+
+.overview-accounts {
+    grid-area: accounts;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.overview-limit {
+    grid-area: limit;
+    min-height: 12rem;
+}
+
+.overview-transactions {
+    grid-area: transactions;
+    min-height: 24rem;
+}
+
+@media (max-width: 60rem) {
+    .overview-grid {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+      "balance"
+      "accounts"
+      "limit"
+      "transactions";
+    }
+}
+
+@media (max-width: 40rem) {
+    .overview-accounts {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+    }
+}

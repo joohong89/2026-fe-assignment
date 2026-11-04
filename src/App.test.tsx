@@ -1,28 +1,32 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import App from './App'
 
-function renderApp() {
-  const queryClient = new QueryClient({
-    defaultOptions: { queries: { retry: false } },
-  })
+describe('application layout', () => {
+  it('renders the overview within the application shell', () => {
+    render(<App />)
 
-  return render(
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>,
-  )
-}
+    const navigation = screen.getByRole('navigation', {
+      name: 'Main navigation',
+    })
 
-describe('starter', () => {
-  it('reaches the mock API', async () => {
-    renderApp()
+    expect(
+        within(navigation).getByRole('link', { name: 'Overview' }),
+    ).toHaveAttribute('aria-current', 'page')
 
-    const status = screen.getByRole('status')
-    await waitFor(
-      () => expect(status).toHaveTextContent('Mock API: connected'),
-      { timeout: 3000 },
-    )
+    const main = screen.getByRole('main')
+
+    expect(
+        within(main).getByRole('heading', {
+          level: 1,
+          name: 'Good evening, Ava',
+        }),
+    ).toBeInTheDocument()
+
+    expect(
+        within(main).getByRole('region', {
+          name: 'Recent transactions',
+        }),
+    ).toBeInTheDocument()
   })
 })
