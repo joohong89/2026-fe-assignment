@@ -50,6 +50,15 @@
     font-weight: 600;
 }
 
+@media (max-width: 40rem) {
+    .app-horizontal-header-inner > .app-header-actions {
+        flex-basis: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-left: 0;
+    }
+}
+
 @media (max-width: 48rem) {
     .app-horizontal-header-inner {
         flex-wrap: wrap;
@@ -62,3 +71,4 @@
         flex-basis: 100%;
     }
 }
+

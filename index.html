@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f4f6fa" />
     <title>Meridian Banking</title>
+    <script>
+      (() => {
+        let theme = 'light'
+        let segment = 'retail'
+
+        try {
+          const savedTheme = localStorage.getItem('meridian-theme')
+          const savedSegment = localStorage.getItem('meridian-segment')
+
+          if (savedTheme === 'light' || savedTheme === 'dark') {
+            theme = savedTheme
+          }
+
+          if (savedSegment === 'retail' || savedSegment === 'premium') {
+            segment = savedSegment
+          }
+        } catch {
+          // Use light + retail when storage is unavailable.
+        }
+
+        document.documentElement.dataset.theme = theme
+        document.documentElement.dataset.segment = segment
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
