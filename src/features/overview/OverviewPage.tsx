@@ -1,12 +1,36 @@
 import './OverviewPage.css'
+import { useCustomer } from '../customer/customer.queries'
+import WelcomeHeader from './components/WelcomeHeader'
 
 export default function OverviewPage() {
+    const customer = useCustomer()
+
     return (
         <div className="overview">
-            <header className="overview-heading">
-                <h1>Good evening, Ava</h1>
-                <p>Your accounts at a glance</p>
-            </header>
+            {customer.isPending ? (
+                <header className="welcome-header" aria-busy="true">
+                    <h1>Welcome to Meridian</h1>
+                    <p role="status">Loading your profile…</p>
+                </header>
+            ) : customer.isError ? (
+                <header className="welcome-header">
+                    <h1>Welcome to Meridian</h1>
+
+                    <p role="alert">
+                        We couldn’t load your profile.
+                    </p>
+
+                    <button
+                        type="button"
+                        onClick={() => void customer.refetch()}
+                        disabled={customer.isFetching}
+                    >
+                        {customer.isFetching ? 'Retrying…' : 'Try again'}
+                    </button>
+                </header>
+            ) : (
+                <WelcomeHeader firstName={customer.data.firstName} />
+            )}
 
             <div className="overview-grid">
                 <section
