@@ -7,11 +7,22 @@ import AccountCard from './components/AccountCard'
 import DailyLimitCard from './components/DailyLimitCard'
 import { useTransactions } from '../transactions/transactions.queries'
 import TransactionList from './components/TransactionList'
+import { useState } from 'react'
 
 export default function OverviewPage() {
     const customer = useCustomer()
     const accounts = useAccounts()
     const transactions = useTransactions(8)
+
+    const [transactionSearch, setTransactionSearch] = useState('')
+
+    const searchTerm = transactionSearch.trim().toLowerCase()
+
+    const filteredTransactions = (transactions.data ?? []).filter(
+        (transaction) =>
+            transaction.description.toLowerCase().includes(searchTerm) ||
+            transaction.category.toLowerCase().includes(searchTerm),
+    )
 
     const depositAccounts = accounts.data?.filter(
         (account) => account.type !== 'credit',
@@ -227,7 +238,53 @@ export default function OverviewPage() {
                             <p>No transactions yet.</p>
                         </div>
                     ) : (
-                        <TransactionList transactions={transactions.data} />
+                        <>
+                            <div className="transaction-search">
+                                <label htmlFor="transaction-search">
+                                    Search transactions
+                                </label>
+
+                                <div className="transaction-search-controls">
+                                    <input
+                                        id="transaction-search"
+                                        type="search"
+                                        placeholder="Search description or category"
+                                        value={transactionSearch}
+                                        onChange={(event) =>
+                                            setTransactionSearch(event.target.value)
+                                        }
+                                        aria-describedby="transaction-search-count"
+                                    />
+
+                                    {transactionSearch.length > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setTransactionSearch('')}
+                                        >
+                                            Clear search
+                                        </button>
+                                    )}
+                                </div>
+
+                                <p
+                                    id="transaction-search-count"
+                                    className="transaction-search-count"
+                                    role="status"
+                                >
+                                    {searchTerm
+                                        ? `${filteredTransactions.length} of ${transactions.data.length} recent transactions match`
+                                        : `Showing ${transactions.data.length} recent transactions`}
+                                </p>
+                            </div>
+
+                            {filteredTransactions.length === 0 ? (
+                                <div className="transactions-message">
+                                    <p>No transactions match your search.</p>
+                                </div>
+                            ) : (
+                                <TransactionList transactions={filteredTransactions} />
+                            )}
+                        </>
                     )}
                 </section>
             </div>
