@@ -255,15 +255,6 @@ export default function OverviewPage() {
                                         }
                                         aria-describedby="transaction-search-count"
                                     />
-
-                                    {transactionSearch.length > 0 && (
-                                        <button
-                                            type="button"
-                                            onClick={() => setTransactionSearch('')}
-                                        >
-                                            Clear search
-                                        </button>
-                                    )}
                                 </div>
 
                                 <p
