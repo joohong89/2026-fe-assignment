@@ -221,6 +221,54 @@
     min-height: 24rem;
 }
 
+.transactions-loading {
+    margin-top: var(--space-4);
+}
+
+.transaction-skeleton-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 6rem;
+    align-items: start;
+    gap: var(--space-4);
+    min-height: 5rem;
+    padding-block: var(--space-4);
+}
+
+.transaction-skeleton-row + .transaction-skeleton-row {
+    border-top: 1px solid var(--border);
+}
+
+.transaction-skeleton-row span {
+    display: block;
+    height: 1.25rem;
+    border-radius: var(--radius-sm);
+    background: var(--skeleton);
+}
+
+.transaction-skeleton-row span:first-child {
+    width: 75%;
+}
+
+.transactions-message {
+    padding-block: var(--space-6);
+}
+
+.transactions-message button {
+    min-height: var(--tap-target);
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.transactions-message button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
 @media (max-width: 60rem) {
     .overview-grid {
         grid-template-columns: minmax(0, 1fr);

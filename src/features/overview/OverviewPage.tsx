@@ -5,10 +5,13 @@ import { useAccounts } from '../accounts/accounts.queries'
 import BalanceSummary from './components/BalanceSummary'
 import AccountCard from './components/AccountCard'
 import DailyLimitCard from './components/DailyLimitCard'
+import { useTransactions } from '../transactions/transactions.queries'
+import TransactionList from './components/TransactionList'
 
 export default function OverviewPage() {
     const customer = useCustomer()
     const accounts = useAccounts()
+    const transactions = useTransactions(8)
 
     const depositAccounts = accounts.data?.filter(
         (account) => account.type !== 'credit',
@@ -182,11 +185,50 @@ export default function OverviewPage() {
                 <section
                     className="overview-panel overview-transactions"
                     aria-labelledby="transactions-heading"
+                    aria-busy={transactions.isPending}
                 >
                     <h2 id="transactions-heading">
                         Recent transactions
                     </h2>
-                    <p>Search and transaction list go here</p>
+
+                    {transactions.isPending ? (
+                        <div
+                            className="transactions-loading"
+                            role="status"
+                            aria-label="Loading recent transactions"
+                        >
+                            {Array.from({ length: 8 }, (_, index) => (
+                                <div
+                                    key={index}
+                                    className="transaction-skeleton-row"
+                                    aria-hidden="true"
+                                >
+                                    <span />
+                                    <span />
+                                </div>
+                            ))}
+                        </div>
+                    ) : transactions.isError ? (
+                        <div className="transactions-message">
+                            <p role="alert">
+                                We couldn't load your dashboard.
+                            </p>
+
+                            <button
+                                type="button"
+                                onClick={() => void transactions.refetch()}
+                                disabled={transactions.isFetching}
+                            >
+                                {transactions.isFetching ? 'Retrying…' : 'Retry'}
+                            </button>
+                        </div>
+                    ) : transactions.data.length === 0 ? (
+                        <div className="transactions-message">
+                            <p>No transactions yet.</p>
+                        </div>
+                    ) : (
+                        <TransactionList transactions={transactions.data} />
+                    )}
                 </section>
             </div>
         </div>
