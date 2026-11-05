@@ -47,8 +47,60 @@
 .overview-balance {
     grid-area: balance;
     min-height: 11rem;
+    padding: var(--space-6);
+    border: 0;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(
+            135deg,
+            var(--hero-from),
+            var(--hero-to)
+    );
+    color: var(--on-hero);
 }
 
+.balance-loading {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+}
+
+.balance-loading span {
+    display: block;
+    max-width: 100%;
+    border-radius: var(--radius-sm);
+    background: currentColor;
+    opacity: 0.2;
+}
+
+.balance-loading-amount {
+    width: 18rem;
+    height: var(--text-display);
+}
+
+.balance-loading-caption {
+    width: 13rem;
+    height: 1.5rem;
+}
+
+.balance-error p {
+    color: var(--on-hero);
+}
+
+.balance-error button {
+    min-height: var(--tap-target);
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid currentColor;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--on-hero);
+    cursor: pointer;
+}
+
+.balance-error button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
 .overview-accounts {
     grid-area: accounts;
     display: grid;

@@ -1,9 +1,23 @@
 import './OverviewPage.css'
 import { useCustomer } from '../customer/customer.queries'
 import WelcomeHeader from './components/WelcomeHeader'
+import { useAccounts } from '../accounts/accounts.queries'
+import BalanceSummary from './components/BalanceSummary'
 
 export default function OverviewPage() {
     const customer = useCustomer()
+    const accounts = useAccounts()
+
+    const depositAccounts = accounts.data?.filter(
+        (account) => account.type !== 'credit',
+    ) ?? []
+
+    const totalAvailable = depositAccounts.reduce(
+        (totalCents, account) =>
+            totalCents + Math.round(account.balance * 100),
+        0,
+    ) / 100
+
 
     return (
         <div className="overview">
@@ -36,9 +50,40 @@ export default function OverviewPage() {
                 <section
                     className="overview-panel overview-balance"
                     aria-labelledby="balance-heading"
+                    aria-busy={accounts.isPending}
                 >
                     <h2 id="balance-heading">Total available</h2>
-                    <p>Balance summary goes here</p>
+
+                    {accounts.isPending ? (
+                        <div role="status" aria-label="Loading balances">
+                            <div
+                                className="balance-loading"
+                                aria-hidden="true"
+                            >
+                                <span className="balance-loading-amount" />
+                                <span className="balance-loading-caption" />
+                            </div>
+                        </div>
+                    ) : accounts.isError ? (
+                        <div className="balance-error">
+                            <p role="alert">
+                                We couldn't load your dashboard.
+                            </p>
+
+                            <button
+                                type="button"
+                                onClick={() => void accounts.refetch()}
+                                disabled={accounts.isFetching}
+                            >
+                                {accounts.isFetching ? 'Retrying…' : 'Retry'}
+                            </button>
+                        </div>
+                    ) : (
+                        <BalanceSummary
+                            totalAvailable={totalAvailable}
+                            depositAccountCount={depositAccounts.length}
+                        />
+                    )}
                 </section>
 
                 <section
