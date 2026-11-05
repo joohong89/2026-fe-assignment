@@ -4,7 +4,7 @@ import WelcomeHeader from './components/WelcomeHeader'
 import { useAccounts } from '../accounts/accounts.queries'
 import BalanceSummary from './components/BalanceSummary'
 import AccountCard from './components/AccountCard'
-
+import DailyLimitCard from './components/DailyLimitCard'
 
 export default function OverviewPage() {
     const customer = useCustomer()
@@ -143,9 +143,40 @@ export default function OverviewPage() {
                 <section
                     className="overview-panel overview-limit"
                     aria-labelledby="limit-heading"
+                    aria-busy={customer.isPending}
                 >
                     <h2 id="limit-heading">Daily limit</h2>
-                    <p>Remaining transfer limit goes here</p>
+
+                    {customer.isPending ? (
+                        <div
+                            className="daily-limit-loading"
+                            role="status"
+                            aria-label="Loading daily limit"
+                        >
+                            <span aria-hidden="true" />
+                            <span aria-hidden="true" />
+                            <span aria-hidden="true" />
+                        </div>
+                    ) : customer.isError ? (
+                        <div className="daily-limit-error">
+                            <p role="alert">
+                                We couldn't load your daily limit.
+                            </p>
+
+                            <button
+                                type="button"
+                                onClick={() => void customer.refetch()}
+                                disabled={customer.isFetching}
+                            >
+                                {customer.isFetching ? 'Retrying…' : 'Retry'}
+                            </button>
+                        </div>
+                    ) : (
+                        <DailyLimitCard
+                            limit={customer.data.dailyTransferLimit}
+                            used={customer.data.transferredToday}
+                        />
+                    )}
                 </section>
 
                 <section

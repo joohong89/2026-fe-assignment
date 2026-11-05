@@ -1,0 +1,80 @@
+.daily-limit-card {
+    margin-top: var(--space-4);
+}
+
+.daily-limit-card .daily-limit-remaining {
+    margin: 0;
+    color: var(--text);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+.daily-limit-card .daily-limit-caption {
+    margin: var(--space-2) 0 0;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+.daily-limit-progress {
+    display: block;
+    width: 100%;
+    height: var(--space-2);
+    margin-top: var(--space-6);
+    appearance: none;
+    border: 0;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--surface-muted);
+    accent-color: var(--brand);
+}
+
+.daily-limit-progress::-webkit-progress-bar {
+    background: var(--surface-muted);
+    border-radius: var(--radius-full);
+}
+
+.daily-limit-progress::-webkit-progress-value {
+    background: var(--brand);
+    border-radius: var(--radius-full);
+}
+
+.daily-limit-progress::-moz-progress-bar {
+    background: var(--brand);
+    border-radius: var(--radius-full);
+}
+
+.daily-limit-details {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-4) 0 0;
+    font-size: var(--text-sm);
+}
+
+.daily-limit-details > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+.daily-limit-details dt {
+    color: var(--text-muted);
+}
+
+.daily-limit-details dd {
+    margin: 0;
+    color: var(--text);
+    font-weight: var(--weight-medium);
+    font-variant-numeric: tabular-nums;
+}
+
+.daily-limit-card .daily-limit-note {
+    margin: var(--space-6) 0 0;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+}
