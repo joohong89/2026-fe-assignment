@@ -1,0 +1,124 @@
+.transfer-dialog {
+    width: min(32.5rem, calc(100% - 2rem));
+    max-width: none;
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    padding: 0;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: var(--surface-raised);
+    color: var(--text);
+    box-shadow: var(--shadow-lg);
+}
+
+.transfer-dialog::backdrop {
+    background: var(--overlay);
+}
+
+.transfer-dialog-content {
+    padding: var(--space-6);
+}
+
+.transfer-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+}
+
+.transfer-dialog-header h2 {
+    margin: 0;
+    font-size: var(--text-xl);
+}
+
+.transfer-dialog-close {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: var(--tap-target);
+    height: var(--tap-target);
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--text-2xl);
+    cursor: pointer;
+}
+
+.transfer-dialog-close:hover {
+    background: var(--surface-muted);
+}
+
+.transfer-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin: var(--space-6) 0 0;
+    padding: 0 0 var(--space-6);
+    border-bottom: 1px solid var(--border);
+    list-style: none;
+}
+
+.transfer-steps li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+.transfer-steps li > span {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius-full);
+    background: var(--surface-muted);
+    color: var(--text-muted);
+    font-weight: var(--weight-semibold);
+}
+
+.transfer-steps li[aria-current='step'] {
+    color: var(--brand);
+    font-weight: var(--weight-semibold);
+}
+
+.transfer-steps li[aria-current='step'] > span {
+    background: var(--brand);
+    color: var(--on-brand);
+}
+
+.transfer-dialog-body {
+    padding-top: var(--space-6);
+}
+
+.transfer-dialog-body h3 {
+    margin: 0;
+    font-size: var(--text-lg);
+}
+
+.transfer-dialog-body p {
+    margin: var(--space-3) 0 0;
+    color: var(--text-muted);
+}
+
+@media (max-width: 63.999rem) {
+    .transfer-dialog {
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .transfer-dialog-content {
+        padding:
+                max(var(--space-4), env(safe-area-inset-top))
+                var(--space-4)
+                max(var(--space-4), env(safe-area-inset-bottom));
+    }
+}

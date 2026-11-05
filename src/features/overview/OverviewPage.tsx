@@ -7,15 +7,21 @@ import AccountCard from './components/AccountCard'
 import DailyLimitCard from './components/DailyLimitCard'
 import { useTransactions } from '../transactions/transactions.queries'
 import TransactionList from './components/TransactionList'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import TransferDialog from '../transfers/components/TransferDialog'
 
 export default function OverviewPage() {
     const customer = useCustomer()
     const accounts = useAccounts()
     const transactions = useTransactions(8)
-
     const [transactionSearch, setTransactionSearch] = useState('')
+    const [isTransferOpen, setIsTransferOpen] = useState(false)
+    const transferButtonRef = useRef<HTMLButtonElement>(null)
 
+    function handleTransferClose() {
+        setIsTransferOpen(false)
+        transferButtonRef.current?.focus()
+    }
     const searchTerm = transactionSearch.trim().toLowerCase()
 
     const filteredTransactions = (transactions.data ?? []).filter(
@@ -68,7 +74,20 @@ export default function OverviewPage() {
                     aria-labelledby="balance-heading"
                     aria-busy={accounts.isPending}
                 >
-                    <h2 id="balance-heading">Total available</h2>
+                    <div className="balance-heading-row">
+                        <h2 id="balance-heading">Total available</h2>
+
+                        <button
+                            ref={transferButtonRef}
+                            className="new-transfer-button"
+                            type="button"
+                            aria-haspopup="dialog"
+                            onClick={() => setIsTransferOpen(true)}
+                        >
+                            <span aria-hidden="true">+</span>
+                            New transfer
+                        </button>
+                    </div>
 
                     {accounts.isPending ? (
                         <div role="status" aria-label="Loading balances">
@@ -279,6 +298,11 @@ export default function OverviewPage() {
                     )}
                 </section>
             </div>
+
+            {isTransferOpen && (
+                <TransferDialog onClose={handleTransferClose} />
+            )}
         </div>
+
     )
 }
