@@ -108,6 +108,67 @@
     gap: 1rem;
 }
 
+.accounts-loading {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.account-card-skeleton span {
+    display: block;
+    height: 1rem;
+    max-width: 100%;
+    border-radius: var(--radius-sm);
+    background: var(--skeleton);
+}
+
+.account-skeleton-short {
+    width: 60%;
+}
+
+.account-card-skeleton .account-skeleton-name {
+    width: 85%;
+    margin-top: var(--space-2);
+}
+
+.account-card-skeleton .account-skeleton-balance {
+    width: 90%;
+    height: var(--text-xl);
+    margin-top: auto;
+}
+
+.accounts-message {
+    grid-column: 1 / -1;
+}
+
+.accounts-message p {
+    margin: 0;
+}
+
+.accounts-message button {
+    min-height: var(--tap-target);
+    margin-top: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.accounts-message button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+@media (max-width: 40rem) {
+    .accounts-loading {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.75rem;
+    }
+}
+
 .overview-limit {
     grid-area: limit;
     min-height: 12rem;

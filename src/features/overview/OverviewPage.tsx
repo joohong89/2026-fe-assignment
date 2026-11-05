@@ -3,6 +3,8 @@ import { useCustomer } from '../customer/customer.queries'
 import WelcomeHeader from './components/WelcomeHeader'
 import { useAccounts } from '../accounts/accounts.queries'
 import BalanceSummary from './components/BalanceSummary'
+import AccountCard from './components/AccountCard'
+
 
 export default function OverviewPage() {
     const customer = useCustomer()
@@ -89,21 +91,53 @@ export default function OverviewPage() {
                 <section
                     className="overview-accounts"
                     aria-label="Accounts"
+                    aria-busy={accounts.isPending}
                 >
-                    <article className="overview-panel">
-                        <h2>Checking account</h2>
-                        <p>Account balance</p>
-                    </article>
+                    {accounts.isPending ? (
+                        <div
+                            className="accounts-loading"
+                            role="status"
+                            aria-label="Loading accounts"
+                        >
+                            {[1, 2, 3].map((placeholder) => (
+                                <div
+                                    key={placeholder}
+                                    className="overview-panel account-card account-card-skeleton"
+                                    aria-hidden="true"
+                                >
+                                    <span className="account-skeleton-short" />
+                                    <span className="account-skeleton-name" />
+                                    <span className="account-skeleton-balance" />
+                                    <span className="account-skeleton-short" />
+                                </div>
+                            ))}
+                        </div>
+                    ) : accounts.isError ? (
+                        <div className="overview-panel accounts-message">
+                            <p role="alert">
+                                We couldn't load your accounts.
+                            </p>
 
-                    <article className="overview-panel">
-                        <h2>Savings account</h2>
-                        <p>Account balance</p>
-                    </article>
-
-                    <article className="overview-panel">
-                        <h2>Credit account</h2>
-                        <p>Amount due</p>
-                    </article>
+                            <button
+                                type="button"
+                                onClick={() => void accounts.refetch()}
+                                disabled={accounts.isFetching}
+                            >
+                                {accounts.isFetching ? 'Retrying…' : 'Retry'}
+                            </button>
+                        </div>
+                    ) : accounts.data.length === 0 ? (
+                        <div className="overview-panel accounts-message">
+                            <p>No accounts to display.</p>
+                        </div>
+                    ) : (
+                        accounts.data.map((account) => (
+                            <AccountCard
+                                key={account.id}
+                                account={account}
+                            />
+                        ))
+                    )}
                 </section>
 
                 <section
