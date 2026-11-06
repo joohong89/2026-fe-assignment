@@ -9,6 +9,8 @@ import { useTransactions } from '../transactions/transactions.queries'
 import TransactionList from './components/TransactionList'
 import { useRef, useState } from 'react'
 import TransferDialog from '../transfers/components/TransferDialog'
+import { usePayees } from '../payees/payees.queries'
+import { useCreateTransfer } from '../transfers/transfers.mutations'
 
 export default function OverviewPage() {
     const customer = useCustomer()
@@ -17,6 +19,8 @@ export default function OverviewPage() {
     const [transactionSearch, setTransactionSearch] = useState('')
     const [isTransferOpen, setIsTransferOpen] = useState(false)
     const transferButtonRef = useRef<HTMLButtonElement>(null)
+    const payees = usePayees(isTransferOpen)
+    const transfer = useCreateTransfer()
 
     function handleTransferClose() {
         setIsTransferOpen(false)
@@ -82,7 +86,11 @@ export default function OverviewPage() {
                             className="new-transfer-button"
                             type="button"
                             aria-haspopup="dialog"
-                            onClick={() => setIsTransferOpen(true)}
+
+                            onClick={() => {
+                                transfer.reset()
+                                setIsTransferOpen(true)
+                            }}
                         >
                             <span aria-hidden="true">+</span>
                             New transfer
@@ -300,7 +308,35 @@ export default function OverviewPage() {
             </div>
 
             {isTransferOpen && (
-                <TransferDialog onClose={handleTransferClose} />
+                <TransferDialog
+                    payees={payees.data ?? []}
+                    payeesPending={payees.isPending}
+                    payeesError={payees.isError}
+                    payeesFetching={payees.isFetching}
+                    accounts={accounts.data ?? []}
+                    remainingDailyLimit={
+                        customer.data
+                            ? Math.max(
+                                0,
+                                customer.data.dailyTransferLimit -
+                                customer.data.transferredToday,
+                            )
+                            : 0
+                    }
+                    transferDataPending={accounts.isPending || customer.isPending}
+                    transferDataError={accounts.isError || customer.isError}
+                    transferDataFetching={accounts.isFetching || customer.isFetching}
+                    onSubmitTransfer={(request) => transfer.mutateAsync(request)}
+                    isSubmitting={transfer.isPending}
+                    submitError={transfer.error?.message ?? null}
+                    onResetSubmit={transfer.reset}
+                    onRetryTransferData={() => {
+                        void accounts.refetch()
+                        void customer.refetch()
+                    }}
+                    onRetryPayees={() => void payees.refetch()}
+                    onClose={handleTransferClose}
+                />
             )}
         </div>
 

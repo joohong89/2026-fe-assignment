@@ -1,0 +1,84 @@
+.transfer-result {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.transfer-result h3 {
+    margin: 0;
+}
+
+.transfer-review-details {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+}
+
+.transfer-review-details > div {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: var(--space-3);
+}
+
+.transfer-review-details dt {
+    color: var(--text-muted);
+}
+
+.transfer-review-details dd {
+    margin: 0;
+    text-align: right;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+}
+
+.transfer-review-details dd > span {
+    display: block;
+    margin-top: var(--space-1);
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+.transfer-review-total {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+    font-weight: var(--weight-bold);
+}
+
+.transfer-result .transfer-submit-error {
+    margin: 0;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background: var(--negative-soft);
+    color: var(--negative);
+}
+
+.transfer-result-actions {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-block: var(--space-4);
+    background: var(--surface-raised);
+}
+
+.transfer-result button {
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.transfer-result button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.transfer-result .transfer-primary {
+    border-color: var(--brand);
+    background: var(--brand);
+    color: var(--on-brand);
+}

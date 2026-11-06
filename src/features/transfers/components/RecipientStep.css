@@ -1,0 +1,140 @@
+.recipient-step {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.recipient-step h3 {
+    margin: 0;
+}
+
+.recipient-step label,
+.payee-options legend {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+}
+
+.recipient-step input:not([type='radio']),
+.recipient-step select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: var(--tap-target);
+    padding: var(--space-3);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+}
+
+.recipient-step input[aria-invalid='true'],
+.recipient-step select[aria-invalid='true'] {
+    border-color: var(--negative);
+}
+
+.recipient-step button {
+    min-height: var(--tap-target);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.recipient-step button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.payee-options {
+    display: grid;
+    gap: var(--space-2);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.payee-options legend {
+    margin-bottom: var(--space-3);
+}
+
+.payee-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--tap-target);
+    padding: var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+}
+
+.payee-option:has(input:checked) {
+    border-color: var(--brand);
+    background: var(--brand-soft);
+}
+
+.payee-option input {
+    accent-color: var(--brand);
+}
+
+.payee-initials {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--radius-full);
+    background: var(--surface-muted);
+    color: var(--text);
+}
+
+.payee-description {
+    display: grid;
+    gap: var(--space-1);
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.payee-description > span {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+.recipient-step .new-recipient-toggle {
+    text-align: left;
+    color: var(--brand);
+}
+
+.new-recipient-fields:not([hidden]) {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.recipient-field {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.recipient-step .recipient-error {
+    margin: 0;
+    color: var(--negative);
+    font-size: var(--text-sm);
+}
+
+.recipient-actions {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-block: var(--space-4);
+    background: var(--surface-raised);
+}
+
+.recipient-step .recipient-continue {
+    border-color: var(--brand);
+    background: var(--brand);
+    color: var(--on-brand);
+}
