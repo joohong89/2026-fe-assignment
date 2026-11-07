@@ -225,10 +225,41 @@ export default function OverviewPage() {
                     aria-labelledby="transactions-heading"
                     aria-busy={transactions.isPending}
                 >
-                    <h2 id="transactions-heading">
-                        Recent transactions
-                    </h2>
+                    <div className="transactions-header">
+                        <h2 id="transactions-heading">
+                            Recent transactions
+                        </h2>
 
+                        {transactions.data && transactions.data.length > 0 && (
+                            <div className="transaction-search-controls">
+                                <label
+                                    className="transactions-search-label"
+                                    htmlFor="transaction-search"
+                                >
+                                    Search transactions
+                                </label>
+
+                                <input
+                                    id="transaction-search"
+                                    type="search"
+                                    placeholder="Search transactions"
+                                    value={transactionSearch}
+                                    onChange={(event) =>
+                                        setTransactionSearch(event.target.value)
+                                    }
+                                    aria-describedby="transaction-search-count"
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={() => setTransactionSearch('')}
+                                    disabled={transactionSearch.length === 0}
+                                >
+                                    Clear search
+                                </button>
+                            </div>
+                        )}
+                    </div>
                     {transactions.isPending ? (
                         <div
                             className="transactions-loading"
@@ -266,42 +297,15 @@ export default function OverviewPage() {
                         </div>
                     ) : (
                         <>
-                            <div className="transaction-search">
-                                <label htmlFor="transaction-search">
-                                    Search transactions
-                                </label>
-
-                                <div className="transaction-search-controls">
-                                    <input
-                                        id="transaction-search"
-                                        type="search"
-                                        placeholder="Search description or category"
-                                        value={transactionSearch}
-                                        onChange={(event) =>
-                                            setTransactionSearch(event.target.value)
-                                        }
-                                        aria-describedby="transaction-search-count"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setTransactionSearch('')}
-                                        disabled={transactionSearch.length === 0}
-                                    >
-                                        Clear
-                                    </button>
-
-                                </div>
-
-                                <p
-                                    id="transaction-search-count"
-                                    className="transaction-search-count"
-                                    role="status"
-                                >
-                                    {searchTerm
-                                        ? `${filteredTransactions.length} of ${transactions.data.length} recent transactions match`
-                                        : `Showing ${transactions.data.length} recent transactions`}
-                                </p>
-                            </div>
+                            <p
+                                id="transaction-search-count"
+                                className="transaction-search-count"
+                                role="status"
+                            >
+                                {searchTerm
+                                    ? `${filteredTransactions.length} of ${(transactions.data ?? []).length} recent transactions match`
+                                    : `Showing ${(transactions.data ?? []).length} recent transactions`}
+                            </p>
 
                             {filteredTransactions.length === 0 ? (
                                 <div className="transactions-message">
