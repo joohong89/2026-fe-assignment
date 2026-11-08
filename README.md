@@ -1,45 +1,46 @@
 # Meridian Banking — Joo Hong Tan
 
-- Deployed: https://fe-test-2026.joohong89.workers.dev/
-- Run locally: `npm install && npm run dev`
+**Live site:** https://fe-test-2026.joohong89.workers.dev/
+
+**Run locally:** `npm install && npm run dev`  
+**Run tests:** `npm test`
 
 ## Project structure
 
-- `src/components/`: layout and shared UI.
-- `src/features/`: domain API/query hooks, dashboard and transfer forms.
-- `src/providers/`: theme and segment Context.
-- `src/api/`, `src/lib/`: request types/helpers and formatters.
-- `src/mocks/`, `mock-api/`, `src/test/`: supplied mock API and test setup.
+- `src/components/` — shared layout and UI components
+- `src/features/` — dashboard, accounts, transactions and transfer flow
+- `src/providers/` — theme and segment settings
+- `src/api/` and `src/lib/` — API helpers, types and formatting
+- `src/test/` — test setup
 
-## Decisions and trade-offs
+## Implementation decisions
 
-The libraries and design tokens came with the starter.
+- Fetch data through feature hooks at the page level and pass it to display components as props.
+- Split transfers into recipient, amount, review and confirmation steps.
+- Validate amounts against the available balance and daily limit, using integer cents for comparisons.
+- Refresh customer, account and transaction data after a successful transfer. Disable automatic transfer retries to avoid duplicate submissions.
+- Filter the eight loaded transactions in the browser. Search does not make additional API requests.
+- Use the supplied design tokens for styling and save theme and segment preferences in `localStorage`.
 
-- TanStack Query manages API state; React state and React Hook Form manage UI and form state.
-- Domain-based queries run at page level; display components receive props.
-- Zod validates recipient fields, amount precision, balance and daily-limit constraints. Amount comparisons use integer cents.
-- Local search filters only the eight loaded transactions, avoiding additional requests.
-- Successful transfers invalidate customer, accounts and transactions queries. Mutation retries are disabled to avoid duplicate transfers.
-- CSS files consume design tokens; local storage persists appearance selections.
+## Loading and errors
 
-## Loading, empty and error states
-
-- Loading placeholders; empty-list messages; initial errors with Retry.
-- Cached data remains visible after refresh failures, with warning and Retry.
-- Enter `zzzz` in search for no results; `#fail` in the transfer note for submission failure. Failed transfers preserve form data.
+- Dashboard sections show loading placeholders and a Retry action when an initial request fails.
+- Empty lists and searches with no matches have separate messages. Search for `zzzz` to see the no-match state.
+- Add `#fail` to a transfer note to simulate a failed submission. The entered details are kept for retry.
+- A failed background refresh can currently replace dashboard data with an error message. The previous refresh-warning component is no longer in the code.
 
 ## Tests
 
-Behaviour tests reviewed cover over-balance rejection without a POST, successful transfer/dashboard refresh, failed-request recovery and duplicate-submission prevention. Layout and formatter tests cover rendering and SGD/Singapore date output.
+- Reject a transfer above the available balance without sending a request.
+- Confirm a successful transfer updates the dashboard.
+- Recover from a failed data request using Retry.
+- Check layout rendering and currency/date formatting.
 
 ## AI use
 
-ChatGPT assisted with implementation, review and test drafts. Corrections requested:
+ChatGPT was used to help design the UI layout, generate React components, review code and draft tests. The generated code was integrated into the project and revised where needed to meet the requirements, including component structure, styling and API integration.
 
-1. Move API access from display components to domain hooks called by the page.
-2. Replace inline styles with CSS and extract the shared refresh warning.
-3. Align desktop search beside the transactions heading, as shown in the wireframe.
+## Known issues
 
-## Not done / known issues
-
-Future improvements: debounced server-side search, a CSS/UI library if needed, and i18n. These are not implemented.
+- Investigate API errors that sometimes appear after returning to an inactive browser tab.
+- Keep previously loaded data visible when a background refresh fails.
