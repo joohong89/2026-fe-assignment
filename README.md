@@ -17,17 +17,13 @@
 
 - Fetch data through feature hooks at the page level and pass it to display components as props.
 - Split transfers into recipient, amount, review and confirmation steps.
-- Validate amounts against the available balance and daily limit, using integer cents for comparisons.
-- Refresh customer, account and transaction data after a successful transfer. Disable automatic transfer retries to avoid duplicate submissions.
-- Filter the eight loaded transactions in the browser. Search does not make additional API requests.
-- Use the supplied design tokens for styling and save theme and segment preferences in `localStorage`.
+- Validate amounts against the available balance and daily limit.
 
 ## Loading and errors
 
 - Dashboard sections show loading placeholders and a Retry action when an initial request fails.
 - Empty lists and searches with no matches have separate messages. Search for `zzzz` to see the no-match state.
-- Add `#fail` to a transfer note to simulate a failed submission. The entered details are kept for retry.
-- A failed background refresh can currently replace dashboard data with an error message. The previous refresh-warning component is no longer in the code.
+- Add `#fail` to a transfer note to simulate a failed submission.
 
 ## Tests
 
